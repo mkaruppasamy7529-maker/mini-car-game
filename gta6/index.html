@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GTA VI - Web Edition | Realistic Engine V4</title>
+    <meta name="description" content="A highly realistic 3D GTA 6 browser mock-up featuring day/night cycles, climbing physics, Lamborghinis, mountains, and parking garages.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@400;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Setup Screen (Replaces standard landing page) -->
+<div id="setup-screen">
+    <div class="video-bg"></div>
+    <div class="setup-content">
+        <h1 class="logo">REAL <span>V</span> ENGINE</h1>
+        <p class="subtitle">Select your hardware configuration</p>
+        
+        <div class="device-options">
+            <div class="device-card" id="btn-pc">
+                <div class="device-icon">💻</div>
+                <h3>PC & Keyboard</h3>
+                <p>WASD + Spacebar to Drift</p>
+                <div class="glow"></div>
+            </div>
+            
+            <div class="device-card" id="btn-mobile">
+                <div class="device-icon">📱</div>
+                <h3>Mobile Touch</h3>
+                <p>On-screen Joystick & Pedals</p>
+                <div class="glow"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== GAME CONTAINER ===================== -->
+<div id="game-container" class="hidden">
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Overlay filters for weather -->
+    <div id="weather-overlay"></div>
+
+    <!-- HUD Top Bar -->
+    <div class="hud-top">
+        <div class="hud-left">
+            <div class="hud-stars">
+                <span id="star1">☆</span><span id="star2">☆</span><span id="star3">☆</span><span id="star4">☆</span><span id="star5">☆</span>
+            </div>
+            <div class="hud-time" id="time-display">08:00 AM</div>
+        </div>
+        
+        <div class="hud-center">
+            <button id="back-btn">⬅ QUIT GAME</button>
+        </div>
+
+        <div class="hud-right">
+            <div class="vehicle-selector">
+                <span class="vs-label">VEHICLE</span>
+                <select id="car-select">
+                    <option value="lambo">Lamborghini</option>
+                    <option value="truck">Heavy Truck</option>
+                    <option value="sedan">Street Sedan</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Speed / Drift HUD -->
+    <div class="hud-bottom-right">
+        <div class="speedo-wrap">
+            <span class="speedo-label">MPH</span>
+            <span class="speedometer" id="speed">0</span>
+        </div>
+        <div id="drift-indicator" class="drift-indicator hidden-el">🔥 DRIFT!</div>
+    </div>
+
+    <!-- Minimap -->
+    <div class="minimap-wrap">
+        <canvas id="minimapCanvas" width="160" height="160"></canvas>
+        <div class="minimap-label" id="location-label">DOWNTOWN</div>
+    </div>
+
+    <!-- ===================== MOBILE TOUCH CONTROLS ===================== -->
+    <div id="mobile-controls" class="hidden">
+        <div class="mobile-left">
+            <div id="steer-zone">
+                <div class="steer-ring">
+                    <div class="steer-dot" id="steerDot"></div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-right">
+            <button class="touch-btn drift-btn" id="mDrift">💨 DRIFT</button>
+            <button class="touch-btn gas-btn" id="mGas">▲ GAS</button>
+            <button class="touch-btn brake-btn" id="mBrake">▼ BRAKE</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- ThreeJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

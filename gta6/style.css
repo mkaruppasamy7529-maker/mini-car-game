@@ -1,0 +1,189 @@
+/* =================== ROOT VARIABLES =================== */
+:root {
+    --gta-green: #3ab040;
+    --gta-blue: #0f85d2;
+    --gta-red: #d12229;
+    --gta-orange: #f28b18;
+    --dark: #0a0a0c;
+    --text: #f0f0f0;
+    --ui-bg: rgba(0, 0, 0, 0.65);
+    --ui-border: rgba(255, 255, 255, 0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; color: var(--text); font-family: 'Inter', sans-serif; }
+
+/* =================== SETUP SCREEN =================== */
+#setup-screen {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at center, #111, #000);
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+#setup-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.video-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop') center/cover;
+    opacity: 0.15; filter: grayscale(50%);
+}
+
+.setup-content {
+    position: relative; z-index: 10; text-align: center;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.logo {
+    font-family: 'Outfit', sans-serif; font-weight: 900;
+    font-size: 4rem; letter-spacing: -2px; margin-bottom: 0.5rem;
+    color: white; text-shadow: 0 5px 20px rgba(255,255,255,0.2);
+}
+.logo span { color: var(--gta-green); font-size: 5rem; }
+.subtitle { font-size: 1rem; color: #888; letter-spacing: 2px; margin-bottom: 3rem; text-transform: uppercase; }
+
+.device-options {
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+}
+
+.device-card {
+    position: relative; overflow: hidden;
+    background: rgba(20, 20, 25, 0.8);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 15px; padding: 3rem 2rem; width: 260px;
+    cursor: pointer; backdrop-filter: blur(10px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+}
+.device-card:hover { transform: translateY(-10px); border-color: rgba(255,255,255,0.3); }
+.device-card:active { transform: translateY(0) scale(0.95); }
+
+.device-icon { font-size: 4rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+.device-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+.device-card p { font-size: 0.8rem; color: #777; line-height: 1.4; }
+
+.device-card .glow {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100%;
+    background: radial-gradient(circle at bottom, rgba(255,255,255,0.1), transparent 60%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.device-card:hover .glow { opacity: 1; }
+#btn-pc:hover .glow { background: radial-gradient(circle at bottom, rgba(15,133,210,0.2), transparent 60%); }
+#btn-mobile:hover .glow { background: radial-gradient(circle at bottom, rgba(58,176,64,0.2), transparent 60%); }
+
+/* =================== GAME CONTAINER & WEATHER =================== */
+#game-container { position: fixed; inset: 0; z-index: 50; }
+#game-container.hidden { display: none; }
+#gameCanvas { display: block; width: 100%; height: 100%; }
+
+#weather-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    transition: background 2s ease;
+}
+
+/* =================== REALISTIC HUD =================== */
+.hud-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+}
+
+.hud-left { display: flex; flex-direction: column; gap: 0.5rem; }
+.hud-stars span { font-size: 1.5rem; color: rgba(255,255,255,0.3); letter-spacing: 2px; }
+.hud-stars span.lit { color: white; text-shadow: 0 0 10px white; }
+.hud-time { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 1px; }
+
+#back-btn {
+    padding: 0.5rem 1rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+    background: var(--ui-bg); border: 1px solid var(--ui-border); color: #ccc; cursor: pointer;
+    border-radius: 4px; backdrop-filter: blur(5px); transition: all 0.2s;
+}
+#back-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+
+.vehicle-selector {
+    background: var(--ui-bg); border: 1px solid var(--ui-border);
+    padding: 0.5rem 1rem; border-radius: 5px; backdrop-filter: blur(5px);
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem;
+}
+.vs-label { font-size: 0.6rem; color: #888; letter-spacing: 2px; font-weight: bold; }
+#car-select {
+    background: transparent; color: white; font-family: 'Outfit', sans-serif;
+    font-size: 1rem; border: none; font-weight: bold; cursor: pointer; outline: none;
+}
+#car-select option { background: #111; color: white; }
+
+/* =================== SPEED HUD =================== */
+.hud-bottom-right {
+    position: absolute; bottom: 2.5rem; right: 2.5rem;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;
+}
+.speedo-wrap {
+    display: flex; align-items: baseline; gap: 0.3rem;
+    text-shadow: 2px 2px 0 #000;
+}
+.speedometer { font-family: 'Outfit', sans-serif; font-style: italic; font-size: 3.5rem; font-weight: 900; color: white; line-height: 0.8; }
+.speedo-label { font-size: 0.9rem; font-weight: bold; color: #aaa; }
+.drift-indicator {
+    font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-style: italic; font-weight: 900;
+    color: var(--gta-orange); text-shadow: 0 0 10px var(--gta-orange);
+    animation: driftPulse 0.1s infinite alternate;
+}
+@keyframes driftPulse { from { transform: translateX(-2px); } to { transform: translateX(2px); } }
+.hidden-el { display: none !important; }
+
+/* =================== MINIMAP =================== */
+.minimap-wrap {
+    position: absolute; bottom: 2.5rem; left: 2.5rem;
+    border-radius: 10px; overflow: hidden;
+    border: 3px solid rgba(0,0,0,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: rgba(10,10,12,0.9);
+}
+.minimap-wrap canvas { display: block; opacity: 0.9; }
+.minimap-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.8); font-family: 'Outfit', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px; color: white; text-align: center;
+    padding: 3px 0; font-weight: bold;
+}
+
+/* =================== MOBILE CONTROLS =================== */
+#mobile-controls {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 1.5rem; pointer-events: none; z-index: 90;
+}
+#mobile-controls.hidden { display: none !important; }
+.mobile-left, .mobile-right { pointer-events: all; }
+
+/* Steering */
+#steer-zone { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.steer-ring {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+    position: relative; touch-action: none;
+}
+.steer-dot {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+
+/* Base Mobile Overrides for HUD to not overlap */
+.hud-mobile .hud-bottom-right { bottom: 12rem; right: 1.5rem; }
+.hud-mobile .minimap-wrap { bottom: 12rem; left: 1.5rem; width: 120px; height: 120px; }
+.hud-mobile .minimap-wrap canvas { width: 120px; height: 120px; }
+
+/* Touch Buttons */
+.mobile-right { display: flex; flex-direction: column-reverse; gap: 0.8rem; }
+.touch-btn {
+    padding: 1rem 1.5rem; border: none; border-radius: 10px;
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 900;
+    color: white; cursor: pointer; touch-action: manipulation;
+    background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.2);
+    user-select: none; -webkit-user-select: none;
+}
+.touch-btn:active { background: rgba(255,255,255,0.3); }
+.gas-btn { width: 140px; height: 80px; font-size: 1.4rem; background: rgba(58,176,64,0.4); border-color: var(--gta-green); }
+.brake-btn { width: 140px; height: 60px; background: rgba(209,34,41,0.4); border-color: var(--gta-red); }
+.drift-btn { border-radius: 50px; background: rgba(242,139,24,0.4); border-color: var(--gta-orange); }
